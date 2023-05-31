@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebContextManager">
+    <option name="state">
+      <map>
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/community/index.html" value="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/community" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/frame/index.html" value="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/frame" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/house/index.html" value="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/house" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/house/show.html" value="file://$PROJECT_DIR$/shf-parent/web/web-admin/src/main/webapp/WEB-INF/templates/house" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp/follow.html" value="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp/index.html" value="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp/info.html" value="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp/register.html" value="file://$PROJECT_DIR$/shf-parent/web/web-front/src/main/webapp" />
+      </map>
+    </option>
+  </component>
+</project>

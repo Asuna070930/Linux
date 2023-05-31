@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.atguigu.dao.RoleDao">
+
+    <!--分页-->
+    <select id="findPage" resultType="Role">
+        select * from acl_role
+        <where>
+            <if test="roleName!=null and roleName!=''">
+                and role_name = @{roleName}
+            </if>
+            and is_deleted = 0
+        </where>
+        order by id desc
+    </select>
+
+    <!--逻辑删除，不是真的删除，只是将数据库里面的is_deleted设置为1-->
+    <update id="delete">
+        update acl_role
+        set update_time = now(),
+            is_deleted  = 1
+        where id = #{id}
+    </update>
+
+
+    <!--    更新数据-->
+    <update id="update">
+        update acl_role
+        set
+        <if test="roleName!=null and roleName!=''">
+            role_name =#{roleName},
+        </if>
+        <if test="roleCode!=null and roleCode!=''">
+            role_code =#{roleCode},
+        </if>
+        <if test="description!=null and description!=''">
+            description =#{description},
+        </if>
+        update_time=now()
+        where id=#{id}
+    </update>
+
+
+    <select id="getById" resultType="role">
+        select *
+        from acl_role
+        where id = #{id}
+    </select>
+
+    <!--增加数据-->
+    <insert id="insert">
+        insert into acl_role(role_name, role_code, description)
+        values (#{roleName}, #{roleCode}, #{description})
+    </insert>
+
+
+    <!--查询所有
+    id_delted : 表示是否删除: 0 没有删除 , 1 删除
+    删除:
+    逻辑删除: 假的删除,只是修改数据
+    物理删除: 真的删除
+    -->
+    <select id="findAll" resultType="com.atguigu.entity.Role">
+        select *
+        from acl_role
+        where is_deleted = 0
+    </select>
+
+
+</mapper>
