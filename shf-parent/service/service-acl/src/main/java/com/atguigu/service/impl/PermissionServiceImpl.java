@@ -83,4 +83,13 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
         List<Permission> result = PermissionHelper.bulid(permissionList);
         return result;
     }
+
+    @Override
+    public List<String> findCodeListByAdminId(Long adminId) {
+        if (adminId.longValue()==1){
+            // 超级管理员
+            return permissionDao.findAllCodeList();
+        }
+        return permissionDao.findCodeListByAdminId(adminId);
+    }
 }

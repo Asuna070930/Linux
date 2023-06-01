@@ -5,6 +5,9 @@ import com.atguigu.entity.Admin;
 import com.atguigu.entity.Permission;
 import com.atguigu.service.AdminService;
 import com.atguigu.service.PermissionService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +21,7 @@ public class IndexController {
 
     private final static String PAGE_INDEX = "frame/index";
     private final static String PAGE_MAIN = "frame/main";
+    private final static String PAGE_AUTH = "frame/auth";
 
     @Reference
     private AdminService adminService;
@@ -25,8 +29,13 @@ public class IndexController {
     @Reference
     private PermissionService permissionService;
 
+    @RequestMapping("/auth")
+    public String auth(){
+        return PAGE_AUTH;
+    }
+
     @RequestMapping("/login")
-    public String login(){
+    public String login() {
         return "frame/login";
     }
 
@@ -38,12 +47,17 @@ public class IndexController {
      */
     @GetMapping("/")
     public String index(ModelMap modelMap) {
-        // 假设当前登录的用户是admin
-        Long adminId = 1L;
+        // 需要从security 的上下文容器获取对象
+        //SecurityContextHolder.getContext() 获取security容器
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //我们的用户名 ,密码 权限 都存储在user对象里面
+        User user = (User) authentication.getPrincipal();
+
+
         // 根据用户id，查询用户对象
-        Admin admin = adminService.getById(adminId);
+        Admin admin = adminService.getUserByUsername(user.getUsername());
         // 动态展示左侧菜单
-        List<Permission> permissionList = permissionService.findMenuPermissionByAdminId(adminId);
+        List<Permission> permissionList = permissionService.findMenuPermissionByAdminId(admin.getId());
         modelMap.addAttribute("permissionList", permissionList);
         modelMap.addAttribute("admin", admin);
         return PAGE_INDEX;

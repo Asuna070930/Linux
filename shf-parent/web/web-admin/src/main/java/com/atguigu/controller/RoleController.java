@@ -7,6 +7,7 @@ import com.atguigu.service.PermissionService;
 import com.atguigu.service.RoleService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+
 
 @Controller
 @RequestMapping("/role")
@@ -26,6 +28,7 @@ public class RoleController extends BaseController {
     private final static String LIST_ACTION = "redirect:/role";
 
     private final static String PAGE_ASSGIN_SHOW = "role/assignShow";
+    private static final String PAGE_SUCCESS = "common/successPage";
 
     @Reference
     private RoleService roleService;
@@ -37,10 +40,11 @@ public class RoleController extends BaseController {
      * 保存权限
      * th:action="@{/role/assignPermission}"
      */
+    @PreAuthorize("hasAuthority('role.assgin')")
     @RequestMapping("/assignPermission")
     public String assignPermission(Long roleId, Long[] permissionIds) {
         permissionService.saveRoleIdAndPermissionIds(roleId, permissionIds);
-        return "common/successPage";
+        return PAGE_SUCCESS;
     }
 
 
@@ -50,6 +54,7 @@ public class RoleController extends BaseController {
      *
      * @return
      */
+    @PreAuthorize("hasAuthority('role.assgin')")
     @RequestMapping("/assignShow/{roleId}")
     public String assignShow(@PathVariable Long roleId, ModelMap modelMap) {
         // 需要查询所有的节点 根据角色id查询所有的权限
@@ -63,6 +68,7 @@ public class RoleController extends BaseController {
     /**
      * 删除数据
      */
+    @PreAuthorize("hasAuthority('role.delete')")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
         roleService.delete(id);
@@ -74,15 +80,17 @@ public class RoleController extends BaseController {
     /**
      * 更新数据
      */
+    @PreAuthorize("hasAuthority('role.edit')")
     @RequestMapping("/update")
     public String update(Role role) {
         roleService.update(role);
-        return "common/successPage";
+        return PAGE_SUCCESS;
     }
 
     /**
      * 回显数据
      */
+    @PreAuthorize("hasAuthority('role.edit')")
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Long id, ModelMap modelMap) {
         Role role = roleService.getById(id);
@@ -96,10 +104,11 @@ public class RoleController extends BaseController {
      * @PostMapping : 只能接收post请求,有一个限制
      * @RequextMapping : 可以接收所有请求,没有限制
      */
+    @PreAuthorize("hasAuthority('role.create2')")
     @PostMapping("/save")
     public String save(Role role) {
         roleService.insert(role);
-        return "common/successPage";
+        return PAGE_SUCCESS;
     }
 
     /**
@@ -107,11 +116,13 @@ public class RoleController extends BaseController {
      *
      * @return
      */
+    @PreAuthorize("hasAuthority('role.create')")
     @RequestMapping("/create")
     public String create() {
         return PAGE_CREATE;
     }
 
+    @PreAuthorize("hasAuthority('role.show')")
     @RequestMapping
     public String Index(ModelMap modelMap, HttpServletRequest request) {
         Map<String, Object> filters = getFilters(request);

@@ -5,6 +5,26 @@
 
 <mapper namespace="com.atguigu.dao.PermissionDao">
 
+    <!--    List<String> findAllCodeList();-->
+    <select id="findAllCodeList" resultType="String">
+        select code from acl_permission where type=2 and is_deleted=0
+    </select>
+
+
+    <!--    List<String> findCodeListByAdminId(Long adminId);-->
+    <select id="findCodeListByAdminId" resultType="String">
+        select distinct c.code
+        from acl_admin_role a
+                 inner join acl_role_permission b on a.role_id = b.role_id
+                 inner join acl_permission c on c.id = b.permission_id
+        where a.admin_id=#{adminId}
+          and c.type =2
+          and a.is_deleted=0
+          and b.is_deleted=0
+          and c.is_deleted=0
+    </select>
+
+
     <!--    List<Permission> findListByAdminId(Long adminId);
     inner join : 叫做等值连接，或者叫做内连接，查询的是交集
     根据用户id，查询角色id，根据角色id，查询权限id，根据权限id，查询权限

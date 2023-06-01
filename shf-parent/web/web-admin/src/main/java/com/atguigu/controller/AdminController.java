@@ -8,6 +8,7 @@ import com.atguigu.service.RoleService;
 import com.atguigu.util.QiniuUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -160,10 +161,14 @@ public class AdminController extends BaseController {
      */
     @PostMapping("/save")
     public String save(Admin admin) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //使用加密框架进行加密
+        String encode = passwordEncoder.encode(admin.getPassword());
+        //设置密文
+        admin.setPassword(encode);
         //设置默认头像
         admin.setHeadUrl("http://47.93.148.192:8080/group1/M00/03/F0/rBHu8mHqbpSAU0jVAAAgiJmKg0o148.jpg");
         adminService.insert(admin);
-
         return PAGE_SUCCESS;
     }
 
